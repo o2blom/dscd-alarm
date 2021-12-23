@@ -802,18 +802,15 @@ void process_serial_command(char *buffer, int length)
 		case 625:
 		case 631:
 		case 654:
-			//Create email file
-			system("rm /tmp/email.txt");
-			system("echo \"to: o2blom@gmail.com\" > /tmp/email.txt");
-			system("echo \"subject: DSCD\" >> /tmp/email.txt");
-			system("echo \"from: oblomqvist@ca.rr.com\" >> /tmp/email.txt");
-			sprintf(data, "echo \"%s %s\" >> /tmp/email.txt", message, config_zone[zone]);
-			system(data);
-			system("echo \" \" >> /tmp/email.txt"); //Need newline
+                //Create email file
+				system("rm /tmp/email.txt");
+				sprintf(data, "echo \"%s %s\" > /tmp/email.txt", message, config_zone[zone]);
+				system(data);
+				system("echo \" \" >> /tmp/email.txt"); //Need newline
 
-			//Send email
-			system("sendmail -t -f oblomqvist@ca.rr.com -S smtp-server.ca.rr.com < /tmp/email.txt &");
-			break;
+				//Send email
+				system("cat /tmp/email.txt | mail -s \"DSCD Alarm Notification\" o2blom@gmail.com &");
+				break;
 	}
 
 	/* send access code to system if requested */
